@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f766e" />
+    <title>病例分析抽题 - 私密版</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="lockScreen" id="lockScreen">
+      <div class="lockBox">
+        <h1>病例分析抽题</h1>
+        <p>请输入密码解锁题库。题目和答案图片已加密保存。</p>
+        <form id="unlockForm">
+          <input id="passwordInput" type="password" autocomplete="current-password" placeholder="输入密码" />
+          <button class="primary" type="submit">解锁</button>
+        </form>
+        <div class="lockMessage" id="lockMessage"></div>
+      </div>
+    </section>
+
+    <div id="appShell" hidden>
+      <header class="topbar">
+        <div class="brand">
+          <h1>病例分析抽题</h1>
+          <p id="summary">329 题 · 已抽 0 · 未抽 329</p>
+        </div>
+        <div class="actions">
+          <button class="primary" id="drawBtn" type="button">抽取一题</button>
+          <button id="revealBtn" type="button" disabled>显示答案</button>
+          <button id="nextBtn" type="button" disabled>下一题</button>
+          <button id="cacheBtn" type="button">缓存离线题库</button>
+          <button class="quiet" id="resetBtn" type="button">重置</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar" aria-label="抽题设置">
+          <label class="switch">
+            <input id="noRepeat" type="checkbox" checked />
+            <span>不重复抽题</span>
+          </label>
+          <div class="field">
+            <label for="jumpInput">指定题号</label>
+            <div class="inline">
+              <input id="jumpInput" inputmode="numeric" placeholder="001-329" />
+              <button id="jumpBtn" type="button">打开</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="historySelect">抽题记录</label>
+            <select id="historySelect"><option value="">暂无记录</option></select>
+          </div>
+          <div class="offlineBox">
+            <strong>离线状态</strong>
+            <span id="offlineStatus">网页已准备，题库文件保持加密缓存。</span>
+            <progress id="cacheProgress" value="0" max="100" hidden></progress>
+          </div>
+          <div class="statGrid" aria-label="抽题统计">
+            <div><span id="totalCount">329</span><small>总题数</small></div>
+            <div><span id="usedCount">0</span><small>已抽</small></div>
+            <div><span id="leftCount">329</span><small>未抽</small></div>
+          </div>
+        </aside>
+        <section class="workspace">
+          <div class="casebar">
+            <div><span class="eyebrow">当前题目</span><h2 id="caseTitle">未抽题</h2></div>
+            <div class="meta" id="sourceMeta">PDF 页码 -</div>
+          </div>
+          <section class="panel">
+            <div class="panelHeader"><h3>题目</h3><span id="questionState">等待抽题</span></div>
+            <div class="imageFrame"><img id="questionImg" alt="题目图片" hidden /><div class="placeholder" id="questionPlaceholder">点击“抽取一题”</div></div>
+          </section>
+          <section class="panel answerPanel">
+            <div class="panelHeader"><h3>答案</h3><span id="answerState">未显示</span></div>
+            <div class="imageFrame answerFrame" id="answerFrame"><img id="answerImg" alt="答案图片" hidden /><div class="placeholder" id="answerPlaceholder">点击“显示答案”</div></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="cases.js"></script>
+    <script src="asset-index.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
