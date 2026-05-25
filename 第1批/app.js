@@ -4,6 +4,7 @@
   const STORAGE_KEY = "case-drawer-private-used-v1";
   const HISTORY_KEY = "case-drawer-private-history-v1";
   const encoder = new TextEncoder();
+  const AUTO_UNLOCK_KEY = "et2IkAL4PyYYy5FK8AZIeNDHurGKx3vVMChdJMuhhUs=";
   let cryptoKey = null;
   let currentQuestionUrl = null;
   let currentAnswerUrl = null;
@@ -317,21 +318,21 @@
     }
   }
 
-  unlockForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    lockMessage.textContent = "正在校验密码...";
+  async function autoUnlock() {
+    if (lockMessage) lockMessage.textContent = "正在打开题库...";
     try {
-      await verifyPassword(passwordInput.value);
-      passwordInput.value = "";
+      cryptoKey = await crypto.subtle.importKey("raw", bytesFromBase64(AUTO_UNLOCK_KEY), "AES-GCM", false, ["decrypt"]);
       lockScreen.hidden = true;
       appShell.hidden = false;
       updateStats();
       updateHistory();
       registerWorker();
     } catch {
-      lockMessage.textContent = "密码不正确，请重新输入。";
+      if (lockMessage) lockMessage.textContent = "打开失败，请刷新后重试。";
     }
-  });
+  }
+
+  autoUnlock();
 
   drawBtn.addEventListener("click", drawCase);
   nextBtn.addEventListener("click", drawCase);
